@@ -1,6 +1,7 @@
 class ManageIQ::Providers::Autosde::StorageManager::HostInitiator < ::HostInitiator
   supports :create
   supports :delete
+  supports :safe_delete
 
   def self.raw_create_host_initiator(ext_management_system, options = {})
     wwpns = Array(options['custom_wwpn'])
@@ -24,6 +25,12 @@ class ManageIQ::Providers::Autosde::StorageManager::HostInitiator < ::HostInitia
   end
 
   def raw_delete_host_initiator
+    ems = ext_management_system
+    ems.autosde_client.StorageHostApi.storage_hosts_pk_delete(ems_ref, {:query_params => "force"})
+    EmsRefresh.queue_refresh(ems)
+  end
+
+  def raw_safe_delete_host_initiator
     ems = ext_management_system
     ems.autosde_client.StorageHostApi.storage_hosts_pk_delete(ems_ref)
     EmsRefresh.queue_refresh(ems)
