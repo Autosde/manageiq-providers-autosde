@@ -18,6 +18,9 @@
     :queue_worker_base:
       :ems_refresh_worker:
         :ems_refresh_worker_autosde: {}
+    :event_catcher:
+      :event_catcher_autosde:
+        :poll: 1.seconds
 :ems_refresh:
   :autosde:
     :refresh_interval: 15.minutes
