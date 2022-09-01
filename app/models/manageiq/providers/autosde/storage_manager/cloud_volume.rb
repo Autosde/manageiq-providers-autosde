@@ -8,7 +8,7 @@ class ManageIQ::Providers::Autosde::StorageManager::CloudVolume < ::CloudVolume
   end
 
   # cloud volume delete functionality is not supported for now
-  supports_not :delete
+  supports :delete
   supports_not :safe_delete
 
   def self.raw_create_volume(ext_management_system, options = {})
@@ -35,80 +35,21 @@ class ManageIQ::Providers::Autosde::StorageManager::CloudVolume < ::CloudVolume
   def raw_delete_volume
     ems = ext_management_system
     task_id = ems.autosde_client.VolumeApi.volumes_pk_delete(ems_ref)
-    status = ManageIQ::Providers::Autosde::StorageManager::AutosdeClient.wait_for_success(ems, task_id.task_id, 100, 5)
-    if status == "SUCCESS"
-      queue_refresh
-    else
-      ManageIQ::Providers::Autosde::StorageManager::AutosdeClient.raise_non_success_exception(done_status)
-    end
+    ManageIQ::Providers::Autosde::StorageManager::AutosdeClient.enqueue_refresh(
+      self.class.name, self.id, task_id, ems, "delete", "volume")
   end
 
   # ================= edit  ================
 
   def raw_update_volume(options = {})
-
-
-    trying_hard = ManageIQ::Providers::Autosde::StorageManager::EmsRefreshWorkflow.new
-    #
-    #
-    trying_hard.mio()
-    # trying_hard.refresh()
-
     update_details = ext_management_system.autosde_client.VolumeUpdate(
       :name => options[:name],
       :size => options[:size_GB]
     )
     ems = ext_management_system
     task_id = ems.autosde_client.VolumeApi.volumes_pk_put(ems_ref, update_details)
-
-    require 'byebug'
-    byebug
-
-
-
-
-    #vm_uid_array = Array(uid_ems_array).compact.uniq
-    #raise _("no uid_ems_array defined for linking to service") if vm_uid_array.blank?
-
-    options = {
-      # :target_class  => provider.class.name,
-      # :target_id     => provider.id,
-      # :uid_ems_array => vm_uid_array,
-      # :name          => "Linking VMs to service #{name} ID: [#{id}]",
-      # :userid        => evm_owner.userid,
-      # :sync_key      => guid,
-      # :service_id    => id,
-      # :zone          => my_zone
-      :task_id          => task_id,
-      :ems              => ems,
-      :method_post      => queue_refresh,
-      :method_post_arg  => nil
-    }
-
-    # while task_status != "SUCCESS" and task_status != "FAILURE" and Process.clock_gettime(Process::CLOCK_MONOTONIC) < start_time + wait_time
-    #   task_status = ems.autosde_client.JobApi.jobs_pk_get(task_id).status
-    # end
-
-    ManageIQ::Providers::Autosde::StorageManager::EmsRefreshWorkflow.create_job(options).tap do |job|
-      job.signal(:start)
-    end
-
-
-
-
-
-
-
-
-
-
-    # status = ManageIQ::Providers::Autosde::StorageManager::AutosdeClient.wait_for_success(ems, task_id.task_id, 100, 5)
-    #
-    # if status == "SUCCESS"
-    #   queue_refresh
-    # else
-    #   ManageIQ::Providers::Autosde::StorageManager::AutosdeClient.raise_non_success_exception(done_status)
-    # end
+    ManageIQ::Providers::Autosde::StorageManager::AutosdeClient.enqueue_refresh(
+      self.class.name, self.id, task_id, ems, "update", "volume")
   end
 
   # ================ safe-delete ================
