@@ -114,13 +114,15 @@ class ManageIQ::Providers::Autosde::Inventory::Parser::StorageManager < ManageIQ
 
   def storage_services
     collector.storage_services.each do |service|
-      persister.storage_services.build(
+      ret = persister.storage_services.build(
         :name        => service.name,
         :description => service.description,
         :version     => service.version,
         :ems_ref     => service.uuid
       )
     end
+      require 'byebug'
+      byebug
   end
 
   def cloud_volumes
