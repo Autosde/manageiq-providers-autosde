@@ -21,6 +21,7 @@ class ManageIQ::Providers::Autosde::Inventory::Parser::StorageManager < ManageIQ
     cloud_volumes
     volume_mappings
     wwpn_candidates
+    storage_service_resource_attachments
   end
 
   def physical_storage_families
@@ -158,4 +159,16 @@ class ManageIQ::Providers::Autosde::Inventory::Parser::StorageManager < ManageIQ
       )
     end
   end
+
+  def storage_service_resource_attachments
+    collector.storage_service_resource_attachments.each do |attachment|
+      persister.storage_service_resource_attachments.build(
+        :storage_resource_id => persister.storage_resources.lazy_find(attachment.storage_resource),
+        :storage_service_id  => persister.storage_services.lazy_find(attachment.service),
+        :ems_ref             => attachment.uuid,
+        :ems_id              => persister.manager.id
+      )
+    end
+  end
 end
+

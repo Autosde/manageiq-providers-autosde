@@ -42,4 +42,8 @@ class ManageIQ::Providers::Autosde::Inventory::Collector::StorageManager < Manag
   def host_initiator_groups
     @host_initiator_groups ||= @manager.autosde_client.HostClusterApi.host_clusters_get
   end
+
+  def storage_service_resource_attachments
+    @storage_service_resource_attachments ||= @manager.autosde_client.ServiceResourceAttachmentApi.service_resource_attachment_get
+  end
 end
