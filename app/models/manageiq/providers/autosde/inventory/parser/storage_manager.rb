@@ -23,6 +23,7 @@ class ManageIQ::Providers::Autosde::Inventory::Parser::StorageManager < ManageIQ
     wwpn_candidates
     storage_capabilities
     storage_capability_values
+    storage_service_capability_values
   end
 
   def physical_storage_families
@@ -122,8 +123,25 @@ class ManageIQ::Providers::Autosde::Inventory::Parser::StorageManager < ManageIQ
         :version     => service.version,
         :ems_ref     => service.uuid
       )
+
+      require 'byebug'
+      byebug
+
+      # if service.capability_value
+      #   service.capability_values.each do |capability_value|
+      #     storage_srvc_capability_values(service, capability_value)
+      #   end
+      # end
     end
   end
+
+  # def storage_srvc_capability_values(service, capability_value) # TODO
+  #   persister.storage_service_capability_values.build(
+  #     :storage_service          => persister.storage_services.lazy_find(service),
+  #     :storage_capability_value => persister.storage_capability_values.lazy_find(capability_value)
+  #   )
+  # end
+
 
   def cloud_volumes
     collector.cloud_volumes.each do |volume|
