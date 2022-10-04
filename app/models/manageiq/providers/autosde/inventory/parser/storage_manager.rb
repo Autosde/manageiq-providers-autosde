@@ -21,9 +21,9 @@ class ManageIQ::Providers::Autosde::Inventory::Parser::StorageManager < ManageIQ
     cloud_volumes
     volume_mappings
     wwpn_candidates
-    storage_capabilities
-    storage_capability_values
-    storage_service_capability_values
+    # storage_capabilities
+    # storage_capability_values
+    # storage_service_capability_values
   end
 
   def physical_storage_families
@@ -124,15 +124,16 @@ class ManageIQ::Providers::Autosde::Inventory::Parser::StorageManager < ManageIQ
         :ems_ref     => service.uuid
       )
 
-      require 'byebug'
-      byebug
-
       # if service.capability_value
       #   service.capability_values.each do |capability_value|
       #     storage_srvc_capability_values(service, capability_value)
       #   end
       # end
     end
+
+    # require 'byebug'
+    # byebug
+
   end
 
   # def storage_srvc_capability_values(service, capability_value) # TODO
@@ -179,22 +180,22 @@ class ManageIQ::Providers::Autosde::Inventory::Parser::StorageManager < ManageIQ
     end
   end
 
-  def storage_capabilities
-    collector.storage_capabilities.each do |capability|
-      persister.storage_capabilities.build(
-        :name    => capability.name,
-        :ems_ref => capability.uuid
-      )
-    end
-  end
-
-  def storage_capability_values
-    collector.storage_capability_values.each do |capability_value|
-      persister.storage_capability_values.build(
-        :value              => capability_value.value,
-        :ems_ref            => capability_value.uuid,
-        :storage_capability => persister.storage_capabilities.lazy_find(capability_value.abstract_capability)
-      )
-    end
-  end
+  # def storage_capabilities
+  #   collector.storage_capabilities.each do |capability|
+  #     persister.storage_capabilities.build(
+  #       :name    => capability.name,
+  #       :ems_ref => capability.uuid
+  #     )
+  #   end
+  # end
+  #
+  # def storage_capability_values
+  #   collector.storage_capability_values.each do |capability_value|
+  #     persister.storage_capability_values.build(
+  #       :value              => capability_value.value,
+  #       :ems_ref            => capability_value.uuid,
+  #       :storage_capability => persister.storage_capabilities.lazy_find(capability_value.abstract_capability)
+  #     )
+  #   end
+  # end
 end
