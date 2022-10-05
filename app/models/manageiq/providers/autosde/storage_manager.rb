@@ -27,6 +27,7 @@ class ManageIQ::Providers::Autosde::StorageManager < ManageIQ::Providers::Storag
   supports :add_volume_mapping
   supports :storage_capabilities
   supports :storage_capability_values
+  supports :storage_service_capability_values
 
   include ManageIQ::Providers::StorageManager::BlockMixin
 
