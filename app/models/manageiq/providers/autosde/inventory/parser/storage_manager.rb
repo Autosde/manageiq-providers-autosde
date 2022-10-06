@@ -24,6 +24,8 @@ class ManageIQ::Providers::Autosde::Inventory::Parser::StorageManager < ManageIQ
     storage_capabilities
     storage_capability_values
     storage_service_capability_values
+    physical_storage_capability_values
+    storage_resource_capability_values
   end
 
   def physical_storage_families
@@ -202,6 +204,16 @@ class ManageIQ::Providers::Autosde::Inventory::Parser::StorageManager < ManageIQ
         :ems_ref                  => storage_capability_value.uuid,
         :physical_storage         => persister.physical_storages.lazy_find(storage_capability_value.storage_system),
         :storage_capability_value => persister.storage_capability_values.lazy_find(storage_capability_value.storage_capability_value)
+      )
+    end
+  end
+
+  def storage_resource_capability_values
+    collector.storage_resource_capability_values.each do |resource_capability_value|
+      persister.storage_resource_capability_values.build(
+        :ems_ref                  => resource_capability_value.uuid,
+        :storage_resource         => persister.storage_resources.lazy_find(resource_capability_value.storage_resource),
+        :storage_capability_value => persister.storage_capability_values.lazy_find(resource_capability_value.resource_capability_value)
       )
     end
   end
