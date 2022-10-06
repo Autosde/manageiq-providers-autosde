@@ -19,5 +19,6 @@ class ManageIQ::Providers::Autosde::Inventory::Persister::StorageManager < Manag
     add_collection(storage, :storage_capabilities)
     add_collection(storage, :storage_capability_values)
     add_collection(storage, :storage_service_capability_values)
+    add_collection(storage, :physical_storage_capability_values)
   end
 end
