@@ -72,6 +72,10 @@ class ManageIQ::Providers::Autosde::Inventory::Collector::TargetCollection < Man
     []
   end
 
+  def storage_service_capability_value_mappings
+    []
+  end
+
   private
 
   def parse_targets!
