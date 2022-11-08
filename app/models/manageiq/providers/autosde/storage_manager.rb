@@ -22,6 +22,7 @@ class ManageIQ::Providers::Autosde::StorageManager < ManageIQ::Providers::Storag
   supports :cloud_volume
   supports :catalog
   supports :storage_capability
+  supports :storage_capability_value
 
   supports :add_storage
   supports :add_host_initiator

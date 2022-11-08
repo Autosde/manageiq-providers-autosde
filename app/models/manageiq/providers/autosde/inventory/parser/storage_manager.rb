@@ -22,6 +22,7 @@ class ManageIQ::Providers::Autosde::Inventory::Parser::StorageManager < ManageIQ
     volume_mappings
     wwpn_candidates
     storage_capabilities
+    storage_capability_values
   end
 
   def physical_storage_families
@@ -165,6 +166,16 @@ class ManageIQ::Providers::Autosde::Inventory::Parser::StorageManager < ManageIQ
       persister.storage_capabilities.build(
         :name    => capability.name,
         :ems_ref => capability.uuid
+      )
+    end
+  end
+
+  def storage_capability_values
+    collector.storage_capability_values.each do |capability_value|
+      persister.storage_capability_values.build(
+        :value              => capability_value.value,
+        :ems_ref            => capability_value.uuid,
+        :storage_capability => persister.storage_capabilities.lazy_find(capability_value.abstract_capability)
       )
     end
   end
