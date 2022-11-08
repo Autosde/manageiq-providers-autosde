@@ -7,6 +7,7 @@ class ManageIQ::Providers::Autosde::StorageManager::PhysicalStorage < ::Physical
     unsupported_reason_add(:delete, _("The Physical Storage is not connected to an active Manager")) if ext_management_system.nil?
   end
   supports :validate
+  supports :filter
 
   def raw_delete_physical_storage
     task_id = ext_management_system.autosde_client.StorageSystemApi.storage_systems_pk_delete(ems_ref).task_id
@@ -73,5 +74,28 @@ class ManageIQ::Providers::Autosde::StorageManager::PhysicalStorage < ::Physical
       }
       ext_management_system.class::EmsRefreshWorkflow.create_job(options).tap { |job| job.signal(:start) }
     end
+  end
+
+  def params_for_filter
+    storages = ManageIQ::Providers::Autosde::StorageManager::PhysicalStorage.pluck(:id, :name).map { |id, name| {value: id.to_s, label: name.to_s}}
+
+    {
+      :fields => [
+        {
+          component: "select",
+          name: 'PhysicalStorageId',
+          id: 'PhysicalStorageId',
+          label: ('Physical Storage:'),
+          isMulti: true,
+          isSearchable: true,
+          isClearable: true,
+          simpleValue: true,
+          validate: [{ :type => "required" }],
+          isRequired: true,
+          placeholder: ('<Choose>'),
+          options: storages,
+        }
+      ]
+    }
   end
 end
