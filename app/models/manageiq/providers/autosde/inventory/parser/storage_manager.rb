@@ -24,7 +24,6 @@ class ManageIQ::Providers::Autosde::Inventory::Parser::StorageManager < ManageIQ
     storage_capabilities
     storage_capability_values
     physical_storage_capability_value_mappings
-    storage_resource_capability_value_mappings
     storage_service_capability_value_mappings
   end
 
