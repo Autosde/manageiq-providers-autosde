@@ -55,10 +55,6 @@ class ManageIQ::Providers::Autosde::Inventory::Collector::StorageManager < Manag
     @physical_storage_capability_value_mappings ||= @manager.autosde_client.StorageSystemCapabilityValueMappingApi.storage_system_capability_value_mapping_get
   end
 
-  def storage_resource_capability_value_mappings
-    @storage_resource_capability_value_mappings ||= @manager.autosde_client.StorageResourceCapabilityValueMappingApi.storage_resource_capability_value_mapping_get
-  end
-
   def storage_service_capability_value_mappings
     @storage_service_capability_value_mappings ||= @manager.autosde_client.ServiceCapabilityValueMappingApi.service_capability_value_mapping_get
   end

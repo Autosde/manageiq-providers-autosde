@@ -24,7 +24,6 @@ class ManageIQ::Providers::Autosde::StorageManager < ManageIQ::Providers::Storag
   supports :storage_capability
   supports :storage_capability_value
   supports :physical_storage_capability_value_mapping
-  supports :storage_resource_capability_value_mapping
   supports :storage_service_capability_value_mapping
 
   supports :add_storage

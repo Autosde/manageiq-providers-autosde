@@ -68,10 +68,6 @@ class ManageIQ::Providers::Autosde::Inventory::Collector::TargetCollection < Man
     []
   end
 
-  def storage_resource_capability_value_mappings
-    []
-  end
-
   def storage_service_capability_value_mappings
     []
   end

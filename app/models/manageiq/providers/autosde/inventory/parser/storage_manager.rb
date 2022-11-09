@@ -193,16 +193,6 @@ class ManageIQ::Providers::Autosde::Inventory::Parser::StorageManager < ManageIQ
     end
   end
 
-  def storage_resource_capability_value_mappings
-    collector.storage_resource_capability_value_mappings.each do |resource_capability_value|
-      persister.storage_resource_capability_value_mappings.build(
-        :ems_ref                  => resource_capability_value.uuid,
-        :storage_resource         => persister.storage_resources.lazy_find(resource_capability_value.storage_resource),
-        :storage_capability_value => persister.storage_capability_values.lazy_find(resource_capability_value.resource_capability_value)
-      )
-    end
-  end
-
   def storage_service_capability_value_mappings
     collector.storage_service_capability_value_mappings.each do |service_capability_value|
       persister.storage_service_capability_value_mappings.build(
