@@ -23,6 +23,7 @@ class ManageIQ::Providers::Autosde::StorageManager < ManageIQ::Providers::Storag
   supports :catalog
   supports :storage_capability
   supports :storage_capability_value
+  supports :storage_family_capability_value_mapping
   supports :physical_storage_capability_value_mapping
   supports :storage_service_capability_value_mapping
 

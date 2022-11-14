@@ -64,6 +64,10 @@ class ManageIQ::Providers::Autosde::Inventory::Collector::TargetCollection < Man
     []
   end
 
+  def storage_family_capability_value_mappings
+    []
+  end
+
   def physical_storage_capability_value_mappings
     []
   end
