@@ -11,6 +11,7 @@ class ManageIQ::Providers::Autosde::Inventory::Parser::StorageManager < ManageIQ
   #     :ems_ref => "s2", :name => "Storage 3", :ems_id=>persister.manager.id
   # )#
   def parse
+    ext_management_system
     physical_storage_families
     physical_storages
     storage_resources
@@ -21,6 +22,13 @@ class ManageIQ::Providers::Autosde::Inventory::Parser::StorageManager < ManageIQ
     cloud_volumes
     volume_mappings
     wwpn_candidates
+  end
+
+  def ext_management_system
+    persister.ext_management_system.build(
+      :guid         => persister.manager.guid,
+      :capabilities => collector.capability_values
+    )
   end
 
   def physical_storage_families
@@ -51,7 +59,8 @@ class ManageIQ::Providers::Autosde::Inventory::Parser::StorageManager < ManageIQ
         :ems_ref          => resource.uuid,
         :logical_free     => resource.logical_free,
         :logical_total    => resource.logical_total,
-        :physical_storage => persister.physical_storages.lazy_find(resource.storage_system)
+        :physical_storage => persister.physical_storages.lazy_find(resource.storage_system),
+        :capabilities     => resource.capability_values_json
       )
     end
   end
@@ -115,10 +124,11 @@ class ManageIQ::Providers::Autosde::Inventory::Parser::StorageManager < ManageIQ
   def storage_services
     collector.storage_services.each do |service|
       persister.storage_services.build(
-        :name        => service.name,
-        :description => service.description,
-        :version     => service.version,
-        :ems_ref     => service.uuid
+        :name         => service.name,
+        :description  => service.description,
+        :version      => service.version,
+        :ems_ref      => service.uuid,
+        :capabilities => service.capability_values_json
       )
     end
   end

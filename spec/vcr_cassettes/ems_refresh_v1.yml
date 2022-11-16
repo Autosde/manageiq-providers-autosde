@@ -494,4 +494,49 @@ http_interactions:
       {"wwpn":"2100000E1EE89D91","system_uuid":"a785c49a-2f3c-4e6d-8ace-879dfa1719a2"}]'
     http_version: null
   recorded_at: Mon, 25 Oct 2021 09:51:49 GMT
+- request:
+    method: get
+    uri: https://autosde-appliance-host/site-manager/api/v1/engine/service-abstract-capability-values
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+        - OpenAPI-Generator/1.0.2/ruby
+      Content-Type:
+        - application/json
+      Accept:
+        - "*/*"
+      Authorization:
+        - Bearer fdf68692f2a4c981b946a651363d96cddd711999
+      Expect:
+        - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+        - Mon, 25 Oct 2021 09:51:49 GMT
+      Server:
+        - WSGIServer/0.2 CPython/3.7.3
+      Content-Type:
+        - application/json
+      Vary:
+        - Accept
+      Allow:
+        - GET, HEAD, OPTIONS
+      X-Frame-Options:
+        - SAMEORIGIN
+      Access-Control-Allow-Origin:
+        - "*"
+      Access-Control-Allow-Headers:
+        - "*"
+      Access-Control-Allow-Methods:
+        - GET, POST, OPTIONS, PUT, DELETE
+    body:
+      encoding: ASCII-8BIT
+      string: '[]'
+    http_version: null
+  recorded_at: Mon, 25 Oct 2021 09:51:49 GMT
 recorded_with: VCR 5.1.0
