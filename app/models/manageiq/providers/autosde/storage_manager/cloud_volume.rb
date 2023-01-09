@@ -8,6 +8,15 @@ class ManageIQ::Providers::Autosde::StorageManager::CloudVolume < ::CloudVolume
   supports_not :delete
   supports_not :safe_delete
 
+  def self.create_volume_queue(userid, ext_management_system, options = {})
+    task_opts ||= {
+      :action => "Request sent to provider: create Cloud Volume for user #{userid}",
+      :userid => userid
+    }
+
+    super(userid, ext_management_system, options, task_opts)
+  end
+
   def self.raw_create_volume(ext_management_system, options = {})
     # @type [StorageService]
     creation_hash = {
