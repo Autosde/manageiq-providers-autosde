@@ -1,6 +1,7 @@
 class ManageIQ::Providers::Autosde::StorageManager::CloudVolume < ::CloudVolume
   supports :create
   supports :clone
+  supports :migrate
   supports :update do
     unsupported_reason_add(:update, _("the volume is not connected to an active provider")) unless ext_management_system
   end
@@ -64,6 +65,16 @@ class ManageIQ::Providers::Autosde::StorageManager::CloudVolume < ::CloudVolume
     task_id = ext_management_system.autosde_client.VolumeCloneApi.volume_clone_post(opts).task_id
 
     self.class.create_refresh_task(id, task_id, self.class.name, ext_management_system, "new")
+  end
+
+  def raw_migrate_volume(options)
+    opts = ext_management_system.autosde_client.VolumeMigration(
+      :target_pool_uuid   => options["storage_resource"],
+      :source_volume_uuid => ems_ref
+    )
+    task_id = ext_management_system.autosde_client.VolumeMigrationApi.volume_migration_post(opts)
+
+    create_refresh_task(task_id, "existing")
   end
 
   def self.create_refresh_task(target_id, task_id, target_class, ems, target_option)
@@ -170,6 +181,20 @@ class ManageIQ::Providers::Autosde::StorageManager::CloudVolume < ::CloudVolume
           :label      => _("New volume name"),
           :isRequired => false,
         }
+      ]
+    }
+  end
+
+  def params_for_migrate
+    {
+      :fields => [
+        # {
+        #   :component  => "text-field",
+        #   :id         => "name",
+        #   :name       => "name",
+        #   :label      => _("New volume name"),
+        #   :isRequired => false,
+        # }
       ]
     }
   end
