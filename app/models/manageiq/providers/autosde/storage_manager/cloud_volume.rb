@@ -68,8 +68,10 @@ class ManageIQ::Providers::Autosde::StorageManager::CloudVolume < ::CloudVolume
   end
 
   def raw_migrate_volume(options)
+    require 'byebug'
+    byebug
     opts = ext_management_system.autosde_client.VolumeMigration(
-      :target_pool_uuid   => options["storage_resource"],
+      :target_pool_uuid   => options["dest_resource"],
       :source_volume_uuid => ems_ref
     )
     task_id = ext_management_system.autosde_client.VolumeMigrationApi.volume_migration_post(opts)
