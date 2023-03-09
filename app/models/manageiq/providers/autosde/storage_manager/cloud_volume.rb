@@ -74,9 +74,9 @@ class ManageIQ::Providers::Autosde::StorageManager::CloudVolume < ::CloudVolume
       :target_pool_uuid   => options["dest_resource"],
       :source_volume_uuid => ems_ref
     )
-    task_id = ext_management_system.autosde_client.VolumeMigrationApi.volume_migration_post(opts)
+    task_id = ext_management_system.autosde_client.VolumeMigrationApi.volume_migration_post(opts).task_id
 
-    create_refresh_task(task_id, "existing")
+    self.class.create_refresh_task(id, task_id, self.class.name, ext_management_system, "existing")
   end
 
   def self.create_refresh_task(target_id, task_id, target_class, ems, target_option)
