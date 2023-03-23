@@ -33,10 +33,11 @@ class ManageIQ::Providers::Autosde::StorageManager::PhysicalStorage < ::Physical
 
   def raw_update_physical_storage(options = {})
     update_details = ext_management_system.autosde_client.StorageSystemUpdate(
-      :name          => options['name'],
-      :password      => options['password'] || "",
-      :user          => options['user'] || "",
-      :management_ip => options['management_ip'] || ""
+      :name                           => options['name'],
+      :password                       => options['password'] || "",
+      :user                           => options['user'] || "",
+      :management_ip                  => options['management_ip'] || "",
+      :enabled_capability_values_list => options['enabled_capability_values']
     )
     task_id = ext_management_system.autosde_client.StorageSystemApi.storage_systems_pk_put(ems_ref, update_details).task_id
 
