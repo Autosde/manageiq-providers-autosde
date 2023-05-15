@@ -2,6 +2,7 @@ class ManageIQ::Providers::Autosde::StorageManager::StorageService < ::StorageSe
   supports :create
   supports :delete
   supports :update
+  supports_not :refresh
 
   def self.raw_create_storage_service(ext_management_system, options = {})
     capability_value_list = options.slice(*ext_management_system.capabilities.keys).values

@@ -8,6 +8,8 @@ class ManageIQ::Providers::Autosde::StorageManager::VolumeMapping < ::VolumeMapp
     unsupported_reason_add(:delete, _("The Volume mapping is not connected to an active Manager")) if ext_management_system.nil?
   end
 
+  supports_not :refresh
+
   def raw_delete_volume_mapping
     task_id =
       ext_management_system.autosde_client.StorageHostsMappingApi.storage_hosts_mapping_pk_delete(ems_ref).task_id

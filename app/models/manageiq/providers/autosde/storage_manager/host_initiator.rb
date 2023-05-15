@@ -1,6 +1,7 @@
 class ManageIQ::Providers::Autosde::StorageManager::HostInitiator < ::HostInitiator
   supports :create
   supports :delete
+  supports_not :refresh
 
   def self.raw_create_host_initiator(ext_management_system, options = {})
     # WWPN/IQN values sent to autosde should be format as colon separated string (e.g. WWPN1:WWPN2:WWPN3)

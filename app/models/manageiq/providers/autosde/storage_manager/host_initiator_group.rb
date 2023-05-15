@@ -6,6 +6,7 @@ class ManageIQ::Providers::Autosde::StorageManager::HostInitiatorGroup < ::HostI
   supports :delete do
     unsupported_reason_add(:update, _("the host initiator group is not connected to an active provider")) unless ext_management_system
   end
+  supports_not :refresh
 
   def self.raw_create_host_initiator_group(ext_management_system, options = {})
     host_initiator_group_to_create = ext_management_system.autosde_client.HostCluster(
